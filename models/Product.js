@@ -1,21 +1,21 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const BlogSchema = new Schema({
+const ProductSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'users'
   },
-  content: {
+  description: {
     type: String,
     required: true
   },
-  previewText: {
+  productName: {
     type: String,
     required: true
   },
-  title: {
-    type: String,
+  affiliateLink:{
+    type:String,
     required: true
   },
   mainPhoto:{
@@ -26,14 +26,10 @@ const BlogSchema = new Schema({
     type: String,
     required: true
   },
-  likes: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: 'users'
-      }
-    }
-  ],
+  restPhotos: {
+    type: [String],
+    required: true
+  },
   comments: [
     {
       user: {
@@ -59,4 +55,4 @@ const BlogSchema = new Schema({
   }
 });
 
-module.exports = Blog = mongoose.model('blog', BlogSchema);
+module.exports = Product = mongoose.model('product', ProductSchema);

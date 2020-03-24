@@ -5,7 +5,7 @@ const Blog = require('../../models/Blog');
 const User = require('../../models/User');
 const auth = require('../../middleware/auth');
 
-// @route    POST api/blog
+// @route    POST api/blogs
 // @desc     Create a blog
 // @access   Private
 router.post(
@@ -58,8 +58,8 @@ router.post(
 // // @access   Public
 router.get('/', async (req, res) => {
   try {
-    const posts = await Blog.find().sort({ date: -1 });
-    res.json(posts);
+    const blog = await Blog.find().sort({ date: -1 });
+    res.json(blog);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -88,8 +88,8 @@ router.get('/:id', async (req, res) => {
 
 // @route    DELETE api/blog/:id
 // @desc     Delete a blog
-// @access   Public
-router.delete('/:id', async (req, res) => {
+// @access   Private
+router.delete('/:id',auth, async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
 
@@ -99,9 +99,9 @@ router.delete('/:id', async (req, res) => {
     }
 
     // Check user
-    // if (post.user.toString() !== req.user.id) {
-    //   return res.status(401).json({ msg: 'User not authorized' });
-    // }
+    if (blog.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
 
     await blog.remove();
 
@@ -124,7 +124,7 @@ router.put('/like/:id', auth, async (req, res) => {
     if (
       blog.likes.filter(like => like.user.toString() === req.user.id).length > 0
     ) {
-      return res.status(400).json({ msg: 'Post already liked' });
+      return res.status(400).json({ msg: 'Blog already liked' });
     }
 
     blog.likes.unshift({ user: req.user.id });

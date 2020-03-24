@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const BlogSchema = new Schema({
+const ProductReviewSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'users'
@@ -59,4 +59,4 @@ const BlogSchema = new Schema({
   }
 });
 
-module.exports = Blog = mongoose.model('blog', BlogSchema);
+module.exports = ProductReview = mongoose.model('productReview', ProductReviewSchema);

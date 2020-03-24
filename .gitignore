@@ -1,2 +1,4 @@
-# ignore an entire directory
-/node_modules/
+
+node_modules/
+config/production.json
+config/default.json
